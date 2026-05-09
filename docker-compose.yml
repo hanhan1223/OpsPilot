@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: opspilot-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - opspilot_data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - .env
+    environment:
+      - OPSPILOT_DATABASE_URL=sqlite+aiosqlite:///./data/opspilot.db
+    networks:
+      - opspilot-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: opspilot-frontend
+    volumes:
+      - frontend_dist:/usr/share/nginx/html
+    networks:
+      - opspilot-network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: opspilot-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - frontend_dist:/usr/share/nginx/html:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    networks:
+      - opspilot-network
+    restart: unless-stopped
+
+networks:
+  opspilot-network:
+    driver: bridge
+
+volumes:
+  opspilot_data:
+  frontend_dist:

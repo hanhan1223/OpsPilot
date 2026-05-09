@@ -1,0 +1,58 @@
+# ============================================================================
+# OpsPilot 单容器部署 - 所有服务打包到一个镜像
+# 包含: Nginx (前端) + Uvicorn (后端) + Supervisor (进程管理)
+# ============================================================================
+
+# ── Stage 1: 构建前端 ──────────────────────────────────────────────────────
+FROM node:20-alpine AS frontend-build
+WORKDIR /app/frontend
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm ci --legacy-peer-deps
+COPY frontend/ ./
+RUN npm run build
+
+# ── Stage 2: 最终镜像 ──────────────────────────────────────────────────────
+FROM python:3.12-slim
+
+# 安装系统依赖
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nginx \
+    supervisor \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# 安装 Python 依赖
+COPY packages/opspilot_core/ ./packages/opspilot_core/
+COPY backend/ ./backend/
+RUN pip install --no-cache-dir ./packages/opspilot_core && \
+    pip install --no-cache-dir ./backend
+
+# 复制前端构建产物
+COPY --from=frontend-build /app/frontend/dist /usr/share/nginx/html
+
+# 复制单容器专用 Nginx 配置 (代理到 localhost:8000)
+COPY nginx/nginx-single.conf /etc/nginx/nginx.conf
+
+# Supervisor 配置 - 同时管理 nginx 和 uvicorn
+RUN mkdir -p /var/log/supervisor /app/data/deployments /app/data/logs
+COPY scripts/supervisord.conf /etc/supervisor/conf.d/opspilot.conf
+
+# 健康检查脚本
+COPY scripts/healthcheck.sh /app/healthcheck.sh
+RUN chmod +x /app/healthcheck.sh
+
+# 默认环境变量
+ENV OPSPILOT_DATABASE_URL=sqlite+aiosqlite:///./data/opspilot.db
+ENV OPSPILOT_SECRET_KEY=change-me-in-production
+ENV OPSPILOT_DEPLOY_BASE_PATH=/app/data/deployments
+ENV OPSPILOT_LOG_LEVEL=INFO
+ENV OPSPILOT_CORS_ORIGINS=["http://localhost"]
+
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
+    CMD ["/app/healthcheck.sh"]
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/opspilot.conf"]

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "opspilot-cli"
+version = "0.1.0"
+description = "OpsPilot CLI - AI-driven DevOps platform command line interface"
+requires-python = ">=3.11"
+dependencies = [
+    "opspilot-core",
+    "click>=8.1.7",
+    "httpx>=0.26.0",
+    "rich>=13.7.0",
+]
+
+[project.scripts]
+opspilot = "opspilot_cli.main:cli"
