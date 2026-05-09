@@ -94,6 +94,125 @@ install_docker() {
     log_info "Docker 安装完成"
 }
 
+# ── 检查 Git ─────────────────────────────────────────────────────────────
+check_git() {
+    if command -v git &> /dev/null; then
+        log_info "Git 已安装: $(git --version)"
+        return
+    fi
+
+    log_warn "未检测到 Git"
+    read -p "是否安装 Git? [Y/n]: " install_git
+    if [ "$install_git" = "n" ] || [ "$install_git" = "N" ]; then
+        log_error "部署需要 Git，请手动安装后重试"
+        exit 1
+    fi
+
+    log_step "安装 Git"
+    case $OS in
+        ubuntu|debian)
+            apt-get update -qq && apt-get install -y -qq git
+            ;;
+        centos|rhel|rocky|almalinux|fedora)
+            if command -v dnf &> /dev/null; then
+                dnf install -y -q git
+            else
+                yum install -y -q git
+            fi
+            ;;
+        arch|manjaro)
+            pacman -Sy --noconfirm git
+            ;;
+        *)
+            log_error "不支持的发行版: $OS，请手动安装 Git"
+            exit 1
+            ;;
+    esac
+    log_info "Git 安装完成"
+}
+
+# ── 检查 SSH 密钥 ─────────────────────────────────────────────────────────
+check_ssh_key() {
+    local ssh_key="$HOME/.ssh/id_ed25519"
+    local ssh_key_pub="${ssh_key}.pub"
+
+    # 已有密钥
+    if [ -f "$ssh_key" ] && [ -f "$ssh_key_pub" ]; then
+        log_info "SSH 密钥已存在: $ssh_key"
+        return
+    fi
+
+    # 也检查 RSA 密钥
+    if [ -f "$HOME/.ssh/id_rsa" ] && [ -f "$HOME/.ssh/id_rsa.pub" ]; then
+        log_info "SSH 密钥已存在: $HOME/.ssh/id_rsa"
+        return
+    fi
+
+    log_warn "未检测到 SSH 密钥"
+    echo ""
+    echo -e "  部署功能需要从 Git 仓库拉取代码，建议配置 SSH 密钥。"
+    echo -e "  如果你使用 HTTPS + Token 方式拉取代码，可以跳过此步。"
+    echo ""
+    read -p "是否生成 SSH 密钥? [Y/n]: " gen_key
+    if [ "$gen_key" = "n" ] || [ "$gen_key" = "N" ]; then
+        log_warn "已跳过，稍后可手动配置: ssh-keygen -t ed25519"
+        return
+    fi
+
+    log_step "生成 SSH 密钥"
+
+    # 获取邮箱
+    read -p "请输入邮箱 (用于密钥注释，可留空): " key_email
+    key_email=${key_email:-"opspilot@$(hostname)"}
+
+    # 生成密钥
+    mkdir -p "$HOME/.ssh"
+    chmod 700 "$HOME/.ssh"
+    ssh-keygen -t ed25519 -C "$key_email" -f "$ssh_key" -N "" 2>/dev/null
+
+    if [ ! -f "$ssh_key_pub" ]; then
+        log_error "密钥生成失败"
+        return
+    fi
+
+    log_info "SSH 密钥已生成: $ssh_key"
+
+    # 启动 ssh-agent 并添加密钥
+    eval "$(ssh-agent -s)" > /dev/null 2>&1
+    ssh-add "$ssh_key" 2>/dev/null
+
+    echo ""
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${YELLOW}  请将以下公钥添加到你的 Git 仓库:                        ${NC}"
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "  ${CYAN}GitHub:${NC}  https://github.com/settings/ssh/new"
+    echo -e "  ${CYAN}GitLab:${NC}  https://gitlab.com/-/user_settings/ssh_keys"
+    echo -e "  ${CYAN}Gitee:${NC}   https://gitee.com/profile/sshkeys"
+    echo ""
+    echo -e "  公钥内容:"
+    echo ""
+    echo -e "  ${GREEN}$(cat "$ssh_key_pub")${NC}"
+    echo ""
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    read -p "已添加公钥后按回车继续 (输入 s 跳过): " added_key
+    if [ "$added_key" = "s" ] || [ "$added_key" = "S" ]; then
+        log_warn "已跳过，稍后可手动添加公钥"
+        return
+    fi
+
+    # 测试连接
+    log_info "测试 SSH 连接..."
+    if ssh -T git@github.com -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 2>&1 | grep -qi "success\|welcome\|authenticated"; then
+        log_info "GitHub SSH 连接成功"
+    elif ssh -T git@gitlab.com -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 2>&1 | grep -qi "success\|welcome\|authenticated"; then
+        log_info "GitLab SSH 连接成功"
+    else
+        log_warn "SSH 连接测试未通过，请确认公钥已正确添加"
+    fi
+}
+
 # ── 端口检查 ──────────────────────────────────────────────────────────────
 check_port() {
     local port=$1
@@ -565,6 +684,8 @@ main() {
     check_root
     detect_os
     install_docker
+    check_git
+    check_ssh_key
     configure
     build_image
     start_container
