@@ -53,18 +53,19 @@ function getProgressColor(percent: number): string {
 
 const Dashboard = () => {
   const navigate = useNavigate()
-  const { status, loading: sysLoading, fetchStatus } = useSystemStore()
+  const { status, loading: sysLoading, fetchStatus, connectWS, disconnectWS } = useSystemStore()
   const { projects, total, loading: projLoading, fetchProjects } = useProjectStore()
   const [now, setNow] = useState(new Date())
 
   useEffect(() => {
     fetchStatus()
     fetchProjects({ page: 1, page_size: 10 })
-    const timer = setInterval(() => {
-      fetchStatus()
-      setNow(new Date())
-    }, 10000)
-    return () => clearInterval(timer)
+    connectWS()
+    const clockTimer = setInterval(() => setNow(new Date()), 1000)
+    return () => {
+      clearInterval(clockTimer)
+      disconnectWS()
+    }
   }, [])
 
   const statCards = [

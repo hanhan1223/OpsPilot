@@ -11,6 +11,7 @@ from opspilot_core.models import User
 from opspilot_core.core.security import hash_password
 
 from app.api.router import api_router
+from app.api.websocket import router as ws_router
 
 
 async def seed_admin_user():
@@ -51,6 +52,7 @@ app.add_middleware(
 
 app.add_exception_handler(OpsPilotError, ops_pilot_error_handler)
 app.include_router(api_router, prefix="/api/v1")
+app.include_router(ws_router, prefix="/api/ws")
 
 
 @app.get("/health")
