@@ -146,112 +146,12 @@ const AIConfig = () => {
 
   return (
     <>
-      <style>{`
-        .ai-config-page .content-card {
-          background: rgba(15, 23, 42, 0.6) !important;
-          border: 1px solid rgba(56, 189, 248, 0.08) !important;
-          border-radius: 12px !important;
-        }
-
-        .ai-config-page .ant-card-head {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .ai-config-page .ant-card-head-title {
-          color: #e2e8f0;
-        }
-
-        .config-item {
-          background: rgba(15, 23, 42, 0.5);
-          border: 1px solid rgba(56, 189, 248, 0.08);
-          border-radius: 10px;
-          padding: 16px;
-          transition: all 0.2s ease;
-          height: 100%;
-        }
-
-        .config-item:hover {
-          border-color: rgba(56, 189, 248, 0.2);
-          background: rgba(15, 23, 42, 0.7);
-        }
-
-        .config-item.default {
-          border-color: rgba(82, 196, 26, 0.3);
-        }
-
-        .config-modal .ant-modal-content {
-          background: #0f172a;
-          border: 1px solid rgba(56, 189, 248, 0.12);
-          border-radius: 12px;
-        }
-
-        .config-modal .ant-modal-header {
-          background: transparent;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .config-modal .ant-modal-title {
-          color: #e2e8f0;
-        }
-
-        .config-modal .ant-modal-close {
-          color: rgba(148, 163, 184, 0.6);
-        }
-
-        .config-modal .ant-form-item-label > label {
-          color: rgba(148, 163, 184, 0.8);
-        }
-
-        .config-modal .ant-input,
-        .config-modal .ant-input-number,
-        .config-modal .ant-select-selector {
-          background: rgba(15, 23, 42, 0.8) !important;
-          border-color: rgba(56, 189, 248, 0.1) !important;
-          color: #e2e8f0;
-        }
-
-        .config-modal .ant-input::placeholder {
-          color: rgba(148, 163, 184, 0.4);
-        }
-
-        .config-modal .ant-select-selection-item {
-          color: #e2e8f0;
-        }
-
-        .config-modal .ant-input-number-input {
-          color: #e2e8f0;
-        }
-
-        .test-btn {
-          border-radius: 8px;
-          border-color: rgba(56, 189, 248, 0.2);
-          color: #38bdf8;
-        }
-
-        .test-btn:hover {
-          border-color: #38bdf8 !important;
-          background: rgba(56, 189, 248, 0.06) !important;
-        }
-
-        .save-btn {
-          height: 40px;
-          border-radius: 8px;
-          font-weight: 600;
-          background: linear-gradient(135deg, #1e40af, #4f46e5);
-          border: none;
-        }
-
-        .save-btn:hover {
-          background: linear-gradient(135deg, #1d4ed8, #6366f1) !important;
-        }
-      `}</style>
 
       <div className="ai-config-page">
         <Card
-          className="content-card"
           title={
             <Space>
-              <SettingOutlined style={{ color: '#38bdf8' }} />
+              <SettingOutlined style={{ color: '#1677ff' }} />
               模型配置
             </Space>
           }
@@ -262,8 +162,6 @@ const AIConfig = () => {
               icon={<PlusOutlined />}
               onClick={handleAdd}
               style={{
-                background: 'linear-gradient(135deg, #1e40af, #4f46e5)',
-                border: 'none',
                 borderRadius: 8,
               }}
             >
@@ -276,10 +174,10 @@ const AIConfig = () => {
               const prov = PROVIDER_OPTIONS.find((p) => p.value === config.provider)
               return (
                 <Col xs={24} sm={12} lg={8} key={config.id}>
-                  <div className={`config-item ${config.is_default ? 'default' : ''}`}>
+                  <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                       <div>
-                        <div style={{ fontWeight: 600, color: '#e2e8f0', fontSize: 15, marginBottom: 4 }}>
+                        <div style={{ fontWeight: 600, color: 'rgba(0,0,0,0.88)', fontSize: 15, marginBottom: 4 }}>
                           {config.name}
                         </div>
                         <Tag color={prov?.color || 'default'} style={{ margin: 0 }}>
@@ -302,11 +200,11 @@ const AIConfig = () => {
                       </div>
                     </div>
 
-                    <div style={{ fontSize: 12, color: 'rgba(148,163,184,0.6)', fontFamily: "'JetBrains Mono', monospace", marginBottom: 8 }}>
+                    <div style={{ fontSize: 12, color: 'rgba(0,0,0,0.45)', fontFamily: "'JetBrains Mono', monospace", marginBottom: 8 }}>
                       {config.model_name}
                     </div>
 
-                    <div style={{ display: 'flex', gap: 16, fontSize: 11, color: 'rgba(148,163,184,0.5)' }}>
+                    <div style={{ display: 'flex', gap: 16, fontSize: 11, color: 'rgba(0,0,0,0.35)' }}>
                       <span>温度: {config.temperature}</span>
                       <span>最大token: {config.max_tokens}</span>
                     </div>
@@ -320,7 +218,7 @@ const AIConfig = () => {
                 <div style={{
                   textAlign: 'center',
                   padding: 40,
-                  color: 'rgba(148,163,184,0.4)',
+                  color: 'rgba(0,0,0,0.25)',
                 }}>
                   暂无配置，点击"添加配置"开始
                 </div>
@@ -330,7 +228,6 @@ const AIConfig = () => {
         </Card>
 
         <Modal
-          className="config-modal"
           title={editingId ? '编辑配置' : '添加配置'}
           open={modalOpen}
           onCancel={() => setModalOpen(false)}
@@ -384,7 +281,7 @@ const AIConfig = () => {
                           size="small"
                           loading={loadingModels}
                           onClick={handleFetchModels}
-                          style={{ color: '#38bdf8', padding: 0 }}
+                          style={{ color: '#1677ff', padding: 0 }}
                         >
                           获取模型列表
                         </Button>
@@ -416,7 +313,6 @@ const AIConfig = () => {
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
               <Button
-                className="test-btn"
                 icon={<ApiOutlined />}
                 loading={testing}
                 onClick={handleTest}
@@ -435,7 +331,7 @@ const AIConfig = () => {
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
               <Button onClick={() => setModalOpen(false)}>取消</Button>
-              <Button className="save-btn" type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" style={{ height: 40, borderRadius: 8, fontWeight: 600 }}>
                 {editingId ? '更新' : '创建'}
               </Button>
             </div>

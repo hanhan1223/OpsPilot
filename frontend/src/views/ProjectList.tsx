@@ -61,7 +61,7 @@ const ProjectList = () => {
       render: (name: string, record: any) => (
         <a
           onClick={() => navigate(`/projects/${record.id}`)}
-          style={{ color: '#38bdf8', fontWeight: 500 }}
+          style={{ color: '#1677ff', fontWeight: 500 }}
         >
           {name}
         </a>
@@ -76,7 +76,7 @@ const ProjectList = () => {
         <span style={{
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 12,
-          color: 'rgba(148,163,184,0.7)',
+          color: 'rgba(0,0,0,0.65)',
         }}>
           {url}
         </span>
@@ -98,7 +98,7 @@ const ProjectList = () => {
       key: 'port',
       width: 80,
       render: (port: number) => (
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'rgba(148,163,184,0.6)' }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'rgba(0,0,0,0.45)' }}>
           {port || '-'}
         </span>
       ),
@@ -119,7 +119,7 @@ const ProjectList = () => {
       key: 'created_at',
       width: 170,
       render: (t: string) => (
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'rgba(148,163,184,0.6)' }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'rgba(0,0,0,0.45)' }}>
           {t ? new Date(t).toLocaleString('zh-CN') : '-'}
         </span>
       ),
@@ -135,7 +135,7 @@ const ProjectList = () => {
             size="small"
             icon={<RightOutlined />}
             onClick={() => navigate(`/projects/${record.id}`)}
-            style={{ padding: 0, color: '#38bdf8' }}
+            style={{ padding: 0, color: '#1677ff' }}
           >
             详情
           </Button>
@@ -163,82 +163,12 @@ const ProjectList = () => {
 
   return (
     <>
-      <style>{`
-        .project-list-page .content-card {
-          background: rgba(15, 23, 42, 0.6) !important;
-          border: 1px solid rgba(56, 189, 248, 0.08) !important;
-          border-radius: 12px !important;
-        }
-
-        .project-list-page .ant-card-head {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .project-list-page .ant-card-head-title {
-          color: #e2e8f0;
-        }
-
-        .project-list-page .ant-table {
-          background: transparent;
-        }
-
-        .project-list-page .ant-table-thead > tr > th {
-          background: rgba(255, 255, 255, 0.02) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-          color: rgba(148, 163, 184, 0.7);
-          font-size: 12px;
-          font-weight: 500;
-          font-family: 'JetBrains Mono', monospace;
-        }
-
-        .project-list-page .ant-table-tbody > tr > td {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
-          color: #cbd5e1;
-        }
-
-        .project-list-page .ant-table-tbody > tr:hover > td {
-          background: rgba(56, 189, 248, 0.04) !important;
-        }
-
-        .project-list-page .ant-input,
-        .project-list-page .ant-select-selector {
-          background: rgba(15, 23, 42, 0.8) !important;
-          border-color: rgba(56, 189, 248, 0.1) !important;
-          color: #e2e8f0;
-        }
-
-        .project-list-page .ant-input::placeholder {
-          color: rgba(148, 163, 184, 0.4);
-        }
-
-        .project-list-page .ant-select-selection-item {
-          color: #e2e8f0;
-        }
-
-        .project-list-page .ant-pagination .ant-pagination-item {
-          background: rgba(15, 23, 42, 0.6);
-          border-color: rgba(56, 189, 248, 0.1);
-        }
-
-        .project-list-page .ant-pagination .ant-pagination-item a {
-          color: rgba(148, 163, 184, 0.8);
-        }
-
-        .project-list-page .ant-pagination .ant-pagination-item-active {
-          border-color: #1677ff;
-        }
-
-        .project-list-page .ant-pagination .ant-pagination-item-active a {
-          color: #1677ff;
-        }
-      `}</style>
 
       <div className="project-list-page">
         <Card
-          className="content-card"
           title={
             <Space>
-              <FolderOutlined style={{ color: '#38bdf8' }} />
+              <FolderOutlined style={{ color: '#1677ff' }} />
               项目管理
             </Space>
           }

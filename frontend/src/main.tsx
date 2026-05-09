@@ -17,6 +17,24 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       theme={{
         token: {
           colorPrimary: '#1677ff',
+          colorBgContainer: '#ffffff',
+          colorBgLayout: '#f0f2f5',
+          borderRadius: 8,
+          colorText: 'rgba(0,0,0,0.88)',
+          fontSize: 14,
+        },
+        components: {
+          Card: {
+            colorBgContainer: '#ffffff',
+            borderRadiusLG: 12,
+          },
+          Table: {
+            headerBg: '#fafafa',
+            borderColor: '#f0f0f0',
+          },
+          Button: {
+            primaryShadow: '0 2px 0 rgba(5,145,255,0.1)',
+          },
         },
       }}
     >

@@ -1,4 +1,4 @@
-/* ===== 全局重置 ===== */
+/* ===== Global Reset ===== */
 *,
 *::before,
 *::after {
@@ -18,7 +18,7 @@ body,
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== 自定义滚动条（深色主题） ===== */
+/* ===== Light Theme Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -29,21 +29,21 @@ body,
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.25);
 }
 
-/* Firefox 滚动条 */
+/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
 }
 
-/* ===== 日志查看器深色主题 ===== */
+/* ===== Log Viewer (dark terminal) ===== */
 .log-viewer {
   background-color: #1e1e1e;
   color: #d4d4d4;
@@ -58,7 +58,7 @@ body,
   word-break: break-all;
 }
 
-/* 日志级别着色 */
+/* Log level coloring */
 .log-viewer .log-info {
   color: #4fc1ff;
 }

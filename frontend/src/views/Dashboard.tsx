@@ -80,7 +80,7 @@ const Dashboard = () => {
             percent={status?.cpu_percent ?? 0}
             size={80}
             strokeColor={getProgressColor(status?.cpu_percent ?? 0)}
-            trailColor="rgba(255,255,255,0.06)"
+            trailColor="#f0f0f0"
             strokeWidth={8}
             format={(p) => (
               <span style={{
@@ -103,7 +103,7 @@ const Dashboard = () => {
             }}>
               {status?.cpu_percent ?? 0}%
             </div>
-            <div style={{ fontSize: 12, color: 'rgba(148,163,184,0.6)', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: 'rgba(0,0,0,0.45)', marginTop: 4 }}>
               处理器负载
             </div>
           </div>
@@ -122,7 +122,7 @@ const Dashboard = () => {
             percent={status?.memory_percent ?? 0}
             size={80}
             strokeColor={getProgressColor(status?.memory_percent ?? 0)}
-            trailColor="rgba(255,255,255,0.06)"
+            trailColor="#f0f0f0"
             strokeWidth={8}
             format={(p) => (
               <span style={{
@@ -145,7 +145,7 @@ const Dashboard = () => {
             }}>
               {status?.memory_percent ?? 0}%
             </div>
-            <div style={{ fontSize: 12, color: 'rgba(148,163,184,0.6)', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: 'rgba(0,0,0,0.45)', marginTop: 4 }}>
               内存占用
             </div>
           </div>
@@ -171,7 +171,7 @@ const Dashboard = () => {
           />
           <div style={{
             fontSize: 12,
-            color: 'rgba(148,163,184,0.6)',
+            color: 'rgba(0,0,0,0.45)',
             marginTop: 8,
             fontFamily: "'JetBrains Mono', monospace",
           }}>
@@ -199,7 +199,7 @@ const Dashboard = () => {
           />
           <div style={{
             fontSize: 12,
-            color: 'rgba(148,163,184,0.6)',
+            color: 'rgba(0,0,0,0.45)',
             marginTop: 8,
           }}>
             已注册项目
@@ -215,7 +215,7 @@ const Dashboard = () => {
       dataIndex: 'name',
       key: 'name',
       render: (name: string) => (
-        <span style={{ fontWeight: 500, color: '#e2e8f0' }}>{name}</span>
+        <span style={{ fontWeight: 500, color: 'rgba(0,0,0,0.88)' }}>{name}</span>
       ),
     },
     {
@@ -227,7 +227,7 @@ const Dashboard = () => {
         <span style={{
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 12,
-          color: 'rgba(148,163,184,0.7)',
+          color: 'rgba(0,0,0,0.65)',
         }}>
           {url}
         </span>
@@ -256,7 +256,6 @@ const Dashboard = () => {
             color={conf.color}
             style={{
               margin: 0,
-              borderRadius: 4,
               fontSize: 12,
               border: 'none',
             }}
@@ -275,7 +274,7 @@ const Dashboard = () => {
         <span style={{
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: 12,
-          color: 'rgba(148,163,184,0.6)',
+          color: 'rgba(0,0,0,0.45)',
         }}>
           {t ? new Date(t).toLocaleString('zh-CN') : '-'}
         </span>
@@ -291,7 +290,7 @@ const Dashboard = () => {
           size="small"
           icon={<RightOutlined />}
           onClick={() => navigate(`/projects/${record.id}`)}
-          style={{ padding: 0, color: '#38bdf8' }}
+          style={{ padding: 0, color: '#1677ff' }}
         >
           查看
         </Button>
@@ -301,148 +300,6 @@ const Dashboard = () => {
 
   return (
     <>
-      <style>{`
-        .dashboard-page {
-          font-family: 'Noto Sans SC', -apple-system, sans-serif;
-        }
-
-        .stat-card {
-          background: rgba(15, 23, 42, 0.6) !important;
-          border: 1px solid rgba(56, 189, 248, 0.08) !important;
-          border-radius: 12px !important;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .stat-card:hover {
-          border-color: rgba(56, 189, 248, 0.15) !important;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        .stat-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 2px;
-          border-radius: 2px 2px 0 0;
-        }
-
-        .stat-card .ant-card-head {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .stat-card .ant-card-head-title {
-          font-size: 13px;
-          font-weight: 500;
-          color: rgba(148, 163, 184, 0.8);
-          letter-spacing: 0.5px;
-        }
-
-        .content-card {
-          background: rgba(15, 23, 42, 0.6) !important;
-          border: 1px solid rgba(56, 189, 248, 0.08) !important;
-          border-radius: 12px !important;
-        }
-
-        .content-card .ant-card-head {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .content-card .ant-card-head-title {
-          font-size: 15px;
-          font-weight: 600;
-          color: #e2e8f0;
-          letter-spacing: 0.5px;
-        }
-
-        /* Table overrides for dark theme */
-        .dashboard-table .ant-table {
-          background: transparent;
-        }
-
-        .dashboard-table .ant-table-thead > tr > th {
-          background: rgba(255, 255, 255, 0.02) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-          color: rgba(148, 163, 184, 0.7);
-          font-size: 12px;
-          font-weight: 500;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
-          font-family: 'JetBrains Mono', monospace;
-        }
-
-        .dashboard-table .ant-table-tbody > tr > td {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
-          color: #cbd5e1;
-        }
-
-        .dashboard-table .ant-table-tbody > tr:hover > td {
-          background: rgba(56, 189, 248, 0.04) !important;
-        }
-
-        .dashboard-table .ant-table-cell-row-hover {
-          background: rgba(56, 189, 248, 0.04) !important;
-        }
-
-        .dashboard-table .ant-empty-description {
-          color: rgba(148, 163, 184, 0.5);
-        }
-
-        /* Descriptions override */
-        .sys-info .ant-descriptions-item-label {
-          color: rgba(148, 163, 184, 0.6) !important;
-          background: rgba(255, 255, 255, 0.02) !important;
-          border-color: rgba(255, 255, 255, 0.06) !important;
-          font-size: 13px;
-        }
-
-        .sys-info .ant-descriptions-item-content {
-          color: #e2e8f0 !important;
-          background: transparent !important;
-          border-color: rgba(255, 255, 255, 0.06) !important;
-          font-family: 'JetBrains Mono', monospace;
-          font-size: 13px;
-        }
-
-        .sys-info .ant-descriptions-view {
-          border-color: rgba(255, 255, 255, 0.06) !important;
-        }
-
-        /* Stat card enter animation */
-        .stat-card {
-          animation: stat-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        .stat-card:nth-child(1) { animation-delay: 0.05s; }
-        .stat-card:nth-child(2) { animation-delay: 0.1s; }
-        .stat-card:nth-child(3) { animation-delay: 0.15s; }
-        .stat-card:nth-child(4) { animation-delay: 0.2s; }
-
-        @keyframes stat-enter {
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .content-card {
-          animation: content-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
-          opacity: 0;
-          transform: translateY(16px);
-        }
-
-        @keyframes content-enter {
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Ant progress dark overrides */
-        .stat-card .ant-progress-text {
-          color: inherit;
-        }
-      `}</style>
-
       <div className="dashboard-page">
         <Row gutter={[16, 16]}>
           {statCards.map((card) => (
@@ -456,7 +313,7 @@ const Dashboard = () => {
                   </span>
                 }
                 loading={sysLoading}
-                bordered={false}
+                bordered={true}
               >
                 <div style={{ minHeight: 80, display: 'flex', alignItems: 'center' }}>
                   {card.content}
@@ -471,13 +328,13 @@ const Dashboard = () => {
             <Card
               className="content-card"
               title="最近项目"
-              bordered={false}
+              bordered={true}
               extra={
                 <Button
                   type="link"
                   size="small"
                   onClick={() => navigate('/projects')}
-                  style={{ color: '#38bdf8' }}
+                  style={{ color: '#1677ff' }}
                 >
                   查看全部 <RightOutlined />
                 </Button>
@@ -500,14 +357,14 @@ const Dashboard = () => {
             <Card
               className="content-card"
               title="系统信息"
-              bordered={false}
+              bordered={true}
               extra={
                 <Button
                   type="text"
                   size="small"
                   icon={<ReloadOutlined />}
                   onClick={() => fetchStatus()}
-                  style={{ color: 'rgba(148,163,184,0.6)' }}
+                  style={{ color: 'rgba(0,0,0,0.45)' }}
                 />
               }
             >
@@ -524,7 +381,7 @@ const Dashboard = () => {
                   <span style={{
                     marginLeft: 8,
                     fontSize: 12,
-                    color: 'rgba(148,163,184,0.5)',
+                    color: 'rgba(0,0,0,0.45)',
                   }}>
                     ({status?.docker?.running ?? 0} 容器)
                   </span>
@@ -535,7 +392,7 @@ const Dashboard = () => {
                       percent={status?.disk_percent ?? 0}
                       size="small"
                       strokeColor={getProgressColor(status?.disk_percent ?? 0)}
-                      trailColor="rgba(255,255,255,0.06)"
+                      trailColor="#f0f0f0"
                       style={{ flex: 1, marginBottom: 0 }}
                       format={(p) => (
                         <span style={{

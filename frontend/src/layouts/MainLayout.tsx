@@ -67,7 +67,7 @@ const MainLayout: React.FC = () => {
     <Dropdown menu={{ items: userMenuItems }} placement="bottomRight" trigger={['click']}>
       <Space style={{ cursor: 'pointer', padding: '0 16px' }}>
         <Avatar size="small" icon={<UserOutlined />} style={{ backgroundColor: '#1677ff' }} />
-        <Text style={{ color: '#fff', maxWidth: 120 }} ellipsis>
+        <Text style={{ color: 'rgba(0,0,0,0.88)', maxWidth: 120 }} ellipsis>
           {user?.username || 'Admin'}
         </Text>
       </Space>
@@ -87,24 +87,24 @@ const MainLayout: React.FC = () => {
       route={menuRoutes.route}
       token={{
         header: {
-          colorBgHeader: '#001529',
-          colorHeaderTitle: '#fff',
-          colorTextMenu: 'rgba(255,255,255,0.75)',
-          colorTextMenuSecondary: 'rgba(255,255,255,0.55)',
-          colorTextMenuSelected: '#fff',
-          colorBgMenuItemSelected: 'rgba(255,255,255,0.1)',
-          colorTextMenuActive: '#fff',
-          colorTextRightActionsItem: 'rgba(255,255,255,0.75)',
+          colorBgHeader: '#ffffff',
+          colorHeaderTitle: 'rgba(0,0,0,0.88)',
+          colorTextMenu: 'rgba(0,0,0,0.65)',
+          colorTextMenuSecondary: 'rgba(0,0,0,0.45)',
+          colorTextMenuSelected: '#1677ff',
+          colorBgMenuItemSelected: '#e6f4ff',
+          colorTextMenuActive: '#1677ff',
+          colorTextRightActionsItem: 'rgba(0,0,0,0.65)',
         },
         sider: {
-          colorMenuBackground: '#001529',
-          colorMenuItemDivider: 'rgba(255,255,255,0.06)',
-          colorTextMenu: 'rgba(255,255,255,0.75)',
-          colorTextMenuSelected: '#fff',
-          colorBgMenuItemSelected: '#1677ff',
-          colorTextMenuActive: '#fff',
-          colorTextMenuItemHover: '#fff',
-          colorBgMenuItemHover: 'rgba(255,255,255,0.06)',
+          colorMenuBackground: '#ffffff',
+          colorMenuItemDivider: '#f0f0f0',
+          colorTextMenu: 'rgba(0,0,0,0.65)',
+          colorTextMenuSelected: '#1677ff',
+          colorBgMenuItemSelected: '#e6f4ff',
+          colorTextMenuActive: '#1677ff',
+          colorTextMenuItemHover: '#1677ff',
+          colorBgMenuItemHover: '#f5f5f5',
         },
       }}
       menuItemRender={(item, dom) => (
@@ -134,7 +134,7 @@ const MainLayout: React.FC = () => {
         }}
         style={{ padding: 0 }}
       >
-        <div style={{ padding: 24, background: '#0a0e1a', minHeight: 'calc(100vh - 56px - 48px)' }}>
+        <div style={{ padding: 24, background: '#f0f2f5', minHeight: 'calc(100vh - 56px - 48px)' }}>
           <Outlet />
         </div>
       </PageContainer>

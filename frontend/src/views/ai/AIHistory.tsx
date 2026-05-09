@@ -51,7 +51,7 @@ const AIHistory = () => {
       key: 'project_id',
       width: 100,
       render: (id: number) => (
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'rgba(148,163,184,0.7)' }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", color: 'rgba(0,0,0,0.65)' }}>
           #{id || '-'}
         </span>
       ),
@@ -62,7 +62,7 @@ const AIHistory = () => {
       key: 'content',
       ellipsis: true,
       render: (content: string) => (
-        <span style={{ color: 'rgba(148,163,184,0.7)' }}>
+        <span style={{ color: 'rgba(0,0,0,0.65)' }}>
           {content?.substring(0, 100)}...
         </span>
       ),
@@ -73,7 +73,7 @@ const AIHistory = () => {
       key: 'created_at',
       width: 170,
       render: (t: string) => (
-        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'rgba(148,163,184,0.6)' }}>
+        <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: 'rgba(0,0,0,0.45)' }}>
           {t ? new Date(t).toLocaleString('zh-CN') : '-'}
         </span>
       ),
@@ -88,7 +88,7 @@ const AIHistory = () => {
           size="small"
           icon={<EyeOutlined />}
           onClick={() => { setCurrentReport(record); setDetailOpen(true) }}
-          style={{ padding: 0, color: '#38bdf8' }}
+          style={{ padding: 0, color: '#1677ff' }}
         >
           查看
         </Button>
@@ -98,108 +98,12 @@ const AIHistory = () => {
 
   return (
     <>
-      <style>{`
-        .ai-history-page .content-card {
-          background: rgba(15, 23, 42, 0.6) !important;
-          border: 1px solid rgba(56, 189, 248, 0.08) !important;
-          border-radius: 12px !important;
-        }
-
-        .ai-history-page .ant-card-head {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .ai-history-page .ant-card-head-title {
-          color: #e2e8f0;
-        }
-
-        .ai-history-page .ant-table {
-          background: transparent;
-        }
-
-        .ai-history-page .ant-table-thead > tr > th {
-          background: rgba(255, 255, 255, 0.02) !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-          color: rgba(148, 163, 184, 0.7);
-          font-size: 12px;
-          font-weight: 500;
-          font-family: 'JetBrains Mono', monospace;
-        }
-
-        .ai-history-page .ant-table-tbody > tr > td {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
-          color: #cbd5e1;
-        }
-
-        .ai-history-page .ant-table-tbody > tr:hover > td {
-          background: rgba(56, 189, 248, 0.04) !important;
-        }
-
-        .ai-history-page .ant-select-selector {
-          background: rgba(15, 23, 42, 0.8) !important;
-          border-color: rgba(56, 189, 248, 0.1) !important;
-          color: #e2e8f0;
-        }
-
-        .ai-history-page .ant-select-selection-item {
-          color: #e2e8f0;
-        }
-
-        .detail-modal .ant-modal-content {
-          background: #0f172a;
-          border: 1px solid rgba(56, 189, 248, 0.12);
-          border-radius: 12px;
-        }
-
-        .detail-modal .ant-modal-header {
-          background: transparent;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .detail-modal .ant-modal-title {
-          color: #e2e8f0;
-        }
-
-        .detail-modal .ant-modal-close {
-          color: rgba(148, 163, 184, 0.6);
-        }
-
-        .detail-content {
-          background: #1e1e1e;
-          border-radius: 8px;
-          padding: 20px;
-          font-size: 14px;
-          line-height: 1.8;
-          color: #d4d4d4;
-          max-height: 60vh;
-          overflow-y: auto;
-          white-space: pre-wrap;
-        }
-
-        .ai-history-page .ant-pagination .ant-pagination-item {
-          background: rgba(15, 23, 42, 0.6);
-          border-color: rgba(56, 189, 248, 0.1);
-        }
-
-        .ai-history-page .ant-pagination .ant-pagination-item a {
-          color: rgba(148, 163, 184, 0.8);
-        }
-
-        .ai-history-page .ant-pagination .ant-pagination-item-active {
-          border-color: #1677ff;
-        }
-
-        .ai-history-page .ant-pagination .ant-pagination-item-active a {
-          color: #1677ff;
-        }
-      `}</style>
 
       <div className="ai-history-page">
         <Card
-          className="content-card"
           title={
             <Space>
-              <HistoryOutlined style={{ color: '#38bdf8' }} />
+              <HistoryOutlined style={{ color: '#1677ff' }} />
               分析历史
             </Space>
           }
@@ -231,7 +135,6 @@ const AIHistory = () => {
         </Card>
 
         <Modal
-          className="detail-modal"
           title={
             currentReport && (
               <Space>
@@ -251,13 +154,23 @@ const AIHistory = () => {
             <div>
               <div style={{
                 fontSize: 12,
-                color: 'rgba(148,163,184,0.5)',
+                color: 'rgba(0,0,0,0.35)',
                 marginBottom: 12,
                 fontFamily: "'JetBrains Mono', monospace",
               }}>
                 {currentReport.created_at ? new Date(currentReport.created_at).toLocaleString('zh-CN') : ''}
               </div>
-              <div className="detail-content">{currentReport.content}</div>
+              <div style={{
+                background: '#1e1e1e',
+                borderRadius: 8,
+                padding: 20,
+                fontSize: 14,
+                lineHeight: 1.8,
+                color: '#d4d4d4',
+                maxHeight: '60vh',
+                overflowY: 'auto',
+                whiteSpace: 'pre-wrap',
+              }}>{currentReport.content}</div>
             </div>
           )}
         </Modal>

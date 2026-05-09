@@ -54,88 +54,11 @@ const AIAnalysis = () => {
 
   return (
     <>
-      <style>{`
-        .ai-analysis-page .content-card {
-          background: rgba(15, 23, 42, 0.6) !important;
-          border: 1px solid rgba(56, 189, 248, 0.08) !important;
-          border-radius: 12px !important;
-        }
-
-        .ai-analysis-page .ant-card-head {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .ai-analysis-page .ant-card-head-title {
-          color: #e2e8f0;
-        }
-
-        .ai-analysis-page .ant-select-selector,
-        .ai-analysis-page .ant-input {
-          background: rgba(15, 23, 42, 0.8) !important;
-          border-color: rgba(56, 189, 248, 0.1) !important;
-          color: #e2e8f0;
-        }
-
-        .ai-analysis-page .ant-select-selection-item {
-          color: #e2e8f0;
-        }
-
-        .ai-analysis-page .ant-form-item-label > label {
-          color: rgba(148, 163, 184, 0.8);
-        }
-
-        .report-type-card {
-          background: rgba(15, 23, 42, 0.5);
-          border: 1px solid rgba(56, 189, 248, 0.1);
-          border-radius: 8px;
-          padding: 12px 16px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-        }
-
-        .report-type-card:hover {
-          border-color: rgba(56, 189, 248, 0.25);
-          background: rgba(15, 23, 42, 0.7);
-        }
-
-        .report-type-card.active {
-          border-color: #1677ff;
-          background: rgba(22, 119, 255, 0.08);
-        }
-
-        .result-block {
-          background: #1e1e1e;
-          border-radius: 8px;
-          padding: 20px;
-          font-family: 'Noto Sans SC', sans-serif;
-          font-size: 14px;
-          line-height: 1.8;
-          color: #d4d4d4;
-          max-height: 600px;
-          overflow-y: auto;
-          white-space: pre-wrap;
-        }
-
-        .analyze-btn {
-          height: 44px;
-          border-radius: 8px;
-          font-weight: 600;
-          background: linear-gradient(135deg, #7c3aed, #4f46e5);
-          border: none;
-          box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
-        }
-
-        .analyze-btn:hover {
-          background: linear-gradient(135deg, #8b5cf6, #6366f1) !important;
-          box-shadow: 0 6px 24px rgba(124, 58, 237, 0.4);
-        }
-      `}</style>
 
       <div className="ai-analysis-page">
         <Row gutter={[16, 16]}>
           <Col xs={24} lg={8}>
             <Card
-              className="content-card"
               title={
                 <Space>
                   <ExperimentOutlined style={{ color: '#7c3aed' }} />
@@ -167,21 +90,20 @@ const AIAnalysis = () => {
                     {REPORT_TYPES.map((rt) => (
                       <div
                         key={rt.value}
-                        className={`report-type-card ${reportType === rt.value ? 'active' : ''}`}
                         onClick={() => setReportType(rt.value)}
                       >
                         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                          <span style={{ color: reportType === rt.value ? '#1677ff' : 'rgba(148,163,184,0.6)' }}>
+                          <span style={{ color: reportType === rt.value ? '#1677ff' : 'rgba(0,0,0,0.45)' }}>
                             {rt.icon}
                           </span>
                           <span style={{
                             fontWeight: 500,
-                            color: reportType === rt.value ? '#e2e8f0' : 'rgba(148,163,184,0.8)',
+                            color: reportType === rt.value ? 'rgba(0,0,0,0.88)' : 'rgba(0,0,0,0.65)',
                           }}>
                             {rt.label}
                           </span>
                         </div>
-                        <div style={{ fontSize: 12, color: 'rgba(148,163,184,0.5)', paddingLeft: 24 }}>
+                        <div style={{ fontSize: 12, color: 'rgba(0,0,0,0.35)', paddingLeft: 24 }}>
                           {rt.desc}
                         </div>
                       </div>
@@ -202,8 +124,8 @@ const AIAnalysis = () => {
 
                 <Form.Item style={{ marginBottom: 0 }}>
                   <Button
-                    className="analyze-btn"
                     type="primary"
+                    style={{ height: 44, borderRadius: 8, fontWeight: 600 }}
                     htmlType="submit"
                     loading={loading}
                     icon={<SendOutlined />}
@@ -218,7 +140,6 @@ const AIAnalysis = () => {
 
           <Col xs={24} lg={16}>
             <Card
-              className="content-card"
               title={
                 <Space>
                   <RobotOutlined style={{ color: '#52c41a' }} />
@@ -232,15 +153,26 @@ const AIAnalysis = () => {
                   <Spin size="large" tip="AI 正在分析中..." />
                 </div>
               ) : result ? (
-                <div className="result-block">{result}</div>
+                <div style={{
+                  background: '#1e1e1e',
+                  borderRadius: 8,
+                  padding: 20,
+                  fontFamily: "'Noto Sans SC', sans-serif",
+                  fontSize: 14,
+                  lineHeight: 1.8,
+                  color: '#d4d4d4',
+                  maxHeight: 600,
+                  overflowY: 'auto',
+                  whiteSpace: 'pre-wrap',
+                }}>{result}</div>
               ) : (
                 <div style={{
                   height: 300,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'rgba(148, 163, 184, 0.4)',
-                  background: '#1e1e1e',
+                  color: 'rgba(0,0,0,0.25)',
+                  background: '#fafafa',
                   borderRadius: 8,
                 }}>
                   <div style={{ textAlign: 'center' }}>
