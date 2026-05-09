@@ -129,14 +129,19 @@ OpsPilot/
 
 ## 快速开始
 
-### 方式一：Linux 一键部署 (推荐)
+### 一条命令部署 (推荐)
 
 ```bash
-# 克隆仓库
-git clone git@github.com:hanhan1223/OpsPilot.git
-cd OpsPilot
+curl -fsSL https://raw.githubusercontent.com/hanhan1223/OpsPilot/main/scripts/quick-deploy.sh | sudo bash
+```
 
-# 一键部署 (自动安装 Docker、配置端口、创建管理员)
+这条命令会自动完成：克隆仓库、安装 Docker、构建镜像、配置端口和管理员账号、启动服务并注册 systemd 开机自启。
+
+### 手动部署
+
+```bash
+git clone https://github.com/hanhan1223/OpsPilot.git
+cd OpsPilot
 sudo bash scripts/deploy.sh
 ```
 

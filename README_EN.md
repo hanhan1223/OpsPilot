@@ -108,14 +108,19 @@ OpsPilot/
 
 ## Quick Start
 
-### Option 1: One-Click Linux Deploy (Recommended)
+### One-Command Deploy (Recommended)
 
 ```bash
-# Clone repository
-git clone git@github.com:hanhan1223/OpsPilot.git
-cd OpsPilot
+curl -fsSL https://raw.githubusercontent.com/hanhan1223/OpsPilot/main/scripts/quick-deploy.sh | sudo bash
+```
 
-# One-click deploy (auto installs Docker, configures ports, creates admin)
+This single command automatically: clones the repo, installs Docker, builds the image, configures port and admin credentials, starts the service and registers systemd auto-start.
+
+### Manual Deploy
+
+```bash
+git clone https://github.com/hanhan1223/OpsPilot.git
+cd OpsPilot
 sudo bash scripts/deploy.sh
 ```
 
