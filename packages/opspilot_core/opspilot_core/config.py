@@ -34,7 +34,13 @@ class Settings(BaseSettings):
     LOG_FILE: str = "./data/logs/opspilot.log"
 
     # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost", "http://localhost:80"]
+    CORS_ORIGINS: list[str] = [
+        "http://localhost",
+        "http://localhost:80",
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://localhost:8080",
+    ]
 
     # AI Configuration
     OLLAMA_BASE_URL: str = "http://localhost:11434"
